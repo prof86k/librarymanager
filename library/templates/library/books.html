@@ -1,0 +1,83 @@
+{% extends "accounts/base.html" %}
+<!--  -->
+{% block title %} add book {% endblock title %}
+<!--  -->
+{% block pageheader %} Add Books {% endblock pageheader %}
+<!--  -->
+{% block content %}
+<div class="col-lg-12">
+    <div class="white_card card_height_100 mb_20 ">
+        <div class="white_card_header">
+            <div class="box_header m-0">
+                <div class="col-xl-10 col-md-8 col-sm-6">
+                    <div class="main-title">
+                        <h3 class="m-0">All Library Books</h3>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-md-4 col-sm-6">
+                    <div class="text-end">
+                        <a href="{% url 'library:add_book' %}">Add Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="white_card_body QA_section min_height_oveflow">
+            <div class="QA_table ">
+                <table class="table lms_table_active2 p-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">No.</th>
+                            <th scope="col">Book Title</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Publisher</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books %}
+                        <tr>
+                            <td class="f_s_12 f_w_400 color_text_6">{{forloop.counter}}</td>
+                            <td class="f_s_12 f_w_400 color_text_7">{{book.title}}</td>
+                            <td>
+                                <div class="customer d-flex align-items-center">
+                                    <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_80" src="{{book.image.url}}" alt="image not loaded"></div>
+                                </div>
+                                <td class="f_s_12 f_w_400 color_text_6">{{book.author}}</td>
+                            </td>
+                            <td class="f_s_12 f_w_400 color_text_6">{{book.pub_by}}</td>
+                            <td class="f_s_12 f_w_400 text-center">
+                                {% if book.issue_book %}
+                                <span class="btn-outline-danger">Borrowed</span>
+                                <!--  -->
+                                {% elif book.book_returned %}
+                                <span class="btn-outline-info">Returned</span>
+                                <!--  -->
+                                {% else %}
+                                <span class="btn-outline-success">New</span> {% endif %}
+                            </td>
+                            <td class="f_s_12 f_w_400 text-center header_more_tool">
+                                <div class="dropdown">
+                                    <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                <i class="ti-more-alt"></i>
+                                </span>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
+                                        <a class="dropdown-item" href="{% url 'library:delete_book' book_id=book.id %}"> <i class="ti-trash"></i> Delete</a>
+                                        <a class="dropdown-item" href="{% url 'library:edit_book' book_id=book.id %}"> <i class="fas fa-edit"></i> Edit</a>
+                                        {% if book.book_pdf %}
+                                        <a class="dropdown-item" href="{{ book.book_pdf.url }}"> <i class="fa fa-download"></i> Download</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

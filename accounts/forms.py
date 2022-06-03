@@ -1,3 +1,4 @@
+from random import choices
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
@@ -13,17 +14,17 @@ class AdministratorRegisterationForm(UserCreationForm):
     }))
     full_name = forms.CharField(label='Fullname:',widget=forms.TextInput(attrs={
         'class':'form-control','placeholder':'Enter fullname ...',
-        'required':False,
+        'required':False,'autofocus':True,
     }))
     gender = forms.CharField(label='Gender:',widget=forms.Select(attrs={
         'class':'form-control', 'required':True,
-    }))
+    },choices=GENDER))
     class Meta(UserCreationForm.Meta):
         model = mdl.User
         fields = ['username', 'password1','password2']
         widgets ={
             'username':forms.TextInput(attrs={
-                'class':'form-control','placeholder':'Enter Username...',
+                'class':'form-control','placeholder':'Enter Username...','autofocus':False,
                 'required':True,
             }),
             'password1':forms.TextInput(attrs={
@@ -46,9 +47,9 @@ class AdministratorRegisterationForm(UserCreationForm):
         user.password1 = self.cleaned_data.get('password1')
         user.password2 = self.cleaned_data.get('password2')
         user.is_administrator = True
-        user.save(commit=True)
+        user.save()
 
-        administrator = mdl.Administrator.create(user=user)
+        administrator = mdl.Administrator.objects.create(user=user)
         return user
 
 class StudentRegisterationForm(UserCreationForm):
@@ -61,9 +62,9 @@ class StudentRegisterationForm(UserCreationForm):
         'class':'form-control','placeholder':'Enter fullname ...',
         'required':False,
     }))
-    gender = forms.CharField(label='Gender:',widget=forms.Select(attrs={
+    gender = forms.CharField(label='Gender:',strip=True,widget=forms.Select(attrs={
         'class':'form-control', 'required':True,
-    }))
+    },choices=GENDER,))
     class Meta(UserCreationForm.Meta):
         model = mdl.User
         fields = ['username', 'password1','password2']
@@ -92,9 +93,9 @@ class StudentRegisterationForm(UserCreationForm):
         user.password1 = self.cleaned_data.get('password1')
         user.password2 = self.cleaned_data.get('password2')
         user.is_student = True
-        user.save(commit=True)
+        user.save()
 
-        student = mdl.Student.create(user=user)
+        student = mdl.Student.objects.create(user=user)
         return user
 
 class LoginUserForm(forms.Form):

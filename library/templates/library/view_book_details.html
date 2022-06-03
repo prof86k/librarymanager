@@ -1,0 +1,67 @@
+{% extends "accounts/base.html" %}
+<!--  -->
+{% block title %} {{book}} {% endblock title %}
+<!--  -->
+{% block pageheader %} View Book Detailed Information {% endblock pageheader %}
+<!--  -->
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="white_card card_height_100 mb_30">
+            <div class="white_card_header">
+                <div class="box_header m-0">
+                    <div class="main-title">
+                        <h3 class="m-0">Book Information</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="white_card_body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="shelve">Shelve Name:</label>
+                        <div class="common_input mb_15">
+                            <input type="text" class="form-control" value="{{book.shelve.shelve_name}}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="title">Book Title:</label>
+                        <div class="common_input mb_15">
+                            <input type="text" class="form-control" value="{{book.title}}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="author">Author:</label>
+                        <div class="common_input mb_15">
+                            <input type="text" class="form-control" value="{{book.author}}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="co_author">Co-Author:</label>
+                        <div class="common_input mb_15">
+                            <input type="text" class="form-control" value="{{book.co_author}}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <label for="book_pdf">Book Edition:</label>
+                        <div class="common_input mb_15">
+                            <input type="text" class="form-control" value="{{book.book_edition}}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="book_pdf">Publication Year:</label>
+                        <div class="common_input mb_15">
+                            <input type="text" class="form-control" value="{{book.pub_year}}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="book_pdf">Publication By:</label>
+                        <div class="common_input mb_15">
+                            <input type="text" class="form-control" value="{{book.pub_by}}" disabled>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

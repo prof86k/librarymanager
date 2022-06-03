@@ -20,7 +20,7 @@
                             <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
                         </div>
                         <div class="crm_body">
-                            <h4>2455</h4>
+                            <h4>{{total_books}}</h4>
                             <p>Library Books</p>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                             <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
                         </div>
                         <div class="crm_body">
-                            <h4>245</h4>
+                            <h4>{{borrowed_books}}</h4>
                             <p>Number Borrowed</p>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                             <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
                         </div>
                         <div class="crm_body">
-                            <h4>55</h4>
+                            <h4>{{no_returned_books}}</h4>
                             <p>Not Returned</p>
                         </div>
                     </div>
@@ -62,8 +62,8 @@
                             <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
                         </div>
                         <div class="crm_body">
-                            <h4>3355</h4>
-                            <p>User Registrations</p>
+                            <h4>{{total_shelves}}</h4>
+                            <p>Library Shelves</p>
                         </div>
                     </div>
                 </div>
@@ -101,11 +101,6 @@
                                 <i class="ti-more-alt"></i>
                                 </span>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#"> <i class="ti-eye"></i> Action</a>
-                                        <a class="dropdown-item" href="#"> <i class="ti-trash"></i> Delete</a>
-                                        <a class="dropdown-item" href="#"> <i class="fas fa-edit"></i> Edit</a>
-                                        <a class="dropdown-item" href="#"> <i class="ti-printer"></i> Print</a>
-                                        <a class="dropdown-item" href="#"> <i class="fa fa-download"></i> Download</a>
                                     </div>
                                 </div>
                             </div>
@@ -116,334 +111,60 @@
                             <table class="table lms_table_active2 p-0">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Product 1</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Discount</th>
-                                        <th scope="col">Sold</th>
-                                        <th scope="col">Source</th>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Book Title</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">shelve</th>
+                                        <th scope="col">Author</th>
+                                        <th scope="col">Publisher</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for book in books %}
                                     <tr>
+                                        <td class="f_s_12 f_w_400 color_text_6">{{forloop.counter}}</td>
+                                        <td class="f_s_12 f_w_400 color_text_7">{{book.title}}</td>
                                         <td>
                                             <div class="customer d-flex align-items-center">
-                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/pro_1.png" alt=""></div>
-                                                <span class="f_s_12 f_w_600 color_text_5">Product 1</span>
+                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_80" src="{{book.image.url}}" alt="image not loaded"></div>
                                             </div>
                                         </td>
-                                        <td class="f_s_12 f_w_400 color_text_6">$564</td>
-                                        <td class="f_s_12 f_w_400 color_text_7">#DE2548</td>
-                                        <td class="f_s_12 f_w_400 color_text_6">60</td>
-                                        <td class="f_s_12 f_w_400 text-right"><a href="#" class="text_color_1">Google</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="customer d-flex align-items-center">
-                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/pro_2.png" alt=""></div>
-                                                <span class="f_s_12 f_w_600 color_text_5">Product 2</span>
+                                        <td class="f_s_12 f_w_400 color_text_6">{{book.shelve.shelve_name}}</td>
+                                        <td class="f_s_12 f_w_400 color_text_6">{{book.author}}</td>
+                                        <td class="f_s_12 f_w_400 color_text_6">{{book.pub_by}}</td>
+
+                                        <td class="f_s_12 f_w_400 text-center">
+
+                                            {% if book.issue_book %}
+                                            <span class="btn-outline-danger">Borrowed</span>
+                                            <!--  -->
+                                            {% elif book.book_returned %}
+                                            <span class="btn-outline-info">Returned</span>
+                                            <!--  -->
+                                            {% else %}
+                                            <span class="btn-outline-success">New</span> {% endif %}
+                                        </td>
+                                        <td class="f_s_12 f_w_400 text-center header_more_tool">
+                                            <div class="dropdown">
+                                                <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown">
+                                            <i class="ti-more-alt"></i>
+                                            </span>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="{% url 'library:book_details' book_id=book.id %}"> <i class="ti-eye"></i> View</a>
+                                                    <a class="dropdown-item" href="{% url 'library:delete_book' book_id=book.id %}"> <i class="ti-trash"></i> Delete</a>
+                                                    <a class="dropdown-item" href="{% url 'library:edit_book' book_id=book.id %}"> <i class="fas fa-edit"></i> Edit</a>
+                                                    {% if book.book_pdf %}
+                                                    <a class="dropdown-item" href="{{ book.book_pdf.url }}"> <i class="fa fa-download"></i> Download</a>
+                                                    {% endif %}
+                                                </div>
                                             </div>
                                         </td>
-                                        <td class="f_s_12 f_w_400 color_text_6">$564</td>
-                                        <td class="f_s_12 f_w_400 color_text_7">#DE2548</td>
-                                        <td class="f_s_12 f_w_400 color_text_6">60</td>
-                                        <td class="f_s_12 f_w_400 text-right"><a href="#" class="text_color_2">Direct</a></td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="customer d-flex align-items-center">
-                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/pro_3.png" alt=""></div>
-                                                <span class="f_s_12 f_w_600 color_text_5">Product 3</span>
-                                            </div>
-                                        </td>
-                                        <td class="f_s_12 f_w_400 color_text_6">$564</td>
-                                        <td class="f_s_12 f_w_400 color_text_7">#DE2548</td>
-                                        <td class="f_s_12 f_w_400 color_text_6">60</td>
-                                        <td class="f_s_12 f_w_400 text-right"><a href="#" class="text_color_1">Google</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="customer d-flex align-items-center">
-                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/pro_4.png" alt=""></div>
-                                                <span class="f_s_12 f_w_600 color_text_5">Product 4</span>
-                                            </div>
-                                        </td>
-                                        <td class="f_s_12 f_w_400 color_text_6">$564</td>
-                                        <td class="f_s_12 f_w_400 color_text_7">#DE2548</td>
-                                        <td class="f_s_12 f_w_400 color_text_6">60</td>
-                                        <td class="f_s_12 f_w_400 text-right"><a href="#" class="text_color_1">Refferal</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="customer d-flex align-items-center">
-                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/pro_5.png" alt=""></div>
-                                                <span class="f_s_12 f_w_600 color_text_5">Product 5</span>
-                                            </div>
-                                        </td>
-                                        <td class="f_s_12 f_w_400 color_text_6">$564</td>
-                                        <td class="f_s_12 f_w_400 color_text_7">#DE2548</td>
-                                        <td class="f_s_12 f_w_400 color_text_6">60</td>
-                                        <td class="f_s_12 f_w_400 text-right"><a href="#" class="text_color_1">20</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="customer d-flex align-items-center">
-                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/pro_6.png" alt=""></div>
-                                                <span class="f_s_12 f_w_600 color_text_5">Product 6</span>
-                                            </div>
-                                        </td>
-                                        <td class="f_s_12 f_w_400 color_text_6">$564</td>
-                                        <td class="f_s_12 f_w_400 color_text_7">#DE2548</td>
-                                        <td class="f_s_12 f_w_400 color_text_6">60</td>
-                                        <td class="f_s_12 f_w_400 text-right"><a href="#" class="text_color_5">Direct</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="customer d-flex align-items-center">
-                                                <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/pro_6.png" alt=""></div>
-                                                <span class="f_s_12 f_w_600 color_text_5">Product 6</span>
-                                            </div>
-                                        </td>
-                                        <td class="f_s_12 f_w_400 color_text_6">$564</td>
-                                        <td class="f_s_12 f_w_400 color_text_7">#DE2548</td>
-                                        <td class="f_s_12 f_w_400 color_text_6">60</td>
-                                        <td class="f_s_12 f_w_400 text-right"><a href="#" class="text_color_5">Direct</a></td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-12">
-                <div class="white_card card_height_100 mb_30">
-                    <div class="white_card_header">
-                        <div class="row align-items-center">
-                            <div class="col-lg-4">
-                                <div class="main-title">
-                                    <h3 class="m-0">Stoke Details</h3>
-                                </div>
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="row justify-content-end">
-                                    <div class="col-lg-8 d-flex justify-content-end">
-                                        <div class="serach_field-area theme_bg d-flex align-items-center">
-                                            <div class="search_inner">
-                                                <form action="#">
-                                                    <div class="search_field">
-                                                        <input type="text" placeholder="Search">
-                                                    </div>
-                                                    <button type="submit"> <img src="{%static '/img/icon/icon_search.svg' %}" alt=""> </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="white_card_body ">
-                        <div class="row min_height_oveflow">
-                            <div class="col-lg-4 mb_30">
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil admin_bg d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Admin
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 mb_30">
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil admin_bg d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Admin
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 mb_30">
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil admin_bg d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Admin
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                                <div class="single_user_pil d-flex align-items-center justify-content-between">
-                                    <div class="user_pils_thumb d-flex align-items-center">
-                                        <div class="thumb_34 mr_15 mt-0"><img class="img-fluid radius_50" src="img/customers/1.png" alt=""></div>
-                                        <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
-                                    </div>
-                                    <div class="user_info">
-                                        Customer
-                                    </div>
-                                    <div class="action_btns d-flex">
-                                        <a href="#" class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a href="#" class="action_btn"> <i class="fas fa-trash"></i> </a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

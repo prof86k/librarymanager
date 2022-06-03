@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 
+from . import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -81,12 +83,12 @@ WSGI_APPLICATION = 'librarymanagementcore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        "NAME":'librarydb',
-        'USER':'root',
-        "PASSWORD":'',
-        "HOST":'localhost',
-        'PORT':'3306',
+        'ENGINE': config.db_config.get('DB_ENGINE'),
+        "NAME":config.db_config.get('DB_NAME'),
+        'USER':config.db_config.get('DB_USER'),
+        "PASSWORD":config.db_config.get('DB_PASSWORD'),
+        "HOST":config.db_config.get('DB_HOST'),
+        'PORT':config.db_config.get('DB_PORT'),
     }
 }
 

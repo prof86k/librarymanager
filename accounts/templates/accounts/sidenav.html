@@ -28,32 +28,26 @@
                     <img src="{% static '/img/menu-icon/2.svg' %}" alt="">
                 </div>
                 <div class="nav_title">
-                    <span>Application </span>
+                    <span>Books Shelves</span>
                 </div>
             </a>
             <ul>
-                <li><a href="editor.html">editor</a></li>
-                <li><a href="mail_box.html">Mail Box</a></li>
-                <li><a href="chat.html">Chat</a></li>
-                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="{% url 'library:shelves' %}">All Shelves</a></li>
+                <li><a href="{% url 'library:create_shelve' %}">Create Shelve</a></li>
             </ul>
         </li>
         <li class="">
             <a class="has-arrow" href="#" aria-expanded="false">
                 <div class="nav_icon_small">
-                    <img src="{% static '/img/menu-icon/3.svg' %}" alt="">
+                    <img src="{% static '/img/menu-icon/7.svg' %}" alt="">
                 </div>
                 <div class="nav_title">
-                    <span>Pages</span>
+                    <span>Books</span>
                 </div>
             </a>
             <ul>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="resister.html">Register</a></li>
-                <li><a href="error_400.html">Error 404</a></li>
-                <li><a href="error_500.html">Error 500</a></li>
-                <li><a href="forgot_pass.html">Forgot Password</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="{% url 'library:library_books' %}">All Books</a></li>
+                <li><a href="{% url 'library:add_book' %}">Add New Book</a></li>
             </ul>
         </li>
         <li class="">
@@ -62,81 +56,51 @@
                     <img src="{% static '/img/menu-icon/4.svg' %}" alt="">
                 </div>
                 <div class="nav_title">
-                    <span>Admins</span>
+                    <span>Students</span>
                 </div>
             </a>
             <ul>
-                <li><a href="admin_list.html">Admin List</a></li>
-                <li><a href="add_new_admin.html">Add New Admin</a></li>
+                <li><a href="#">Student List</a></li>
+                <li><a href="#">Add New Student</a></li>
             </ul>
-        </li>
-        <li class="">
-            <a href="navs.html" aria-expanded="false">
-                <div class="nav_icon_small">
-                    <img src="{% static '/img/menu-icon/12.svg' %}" alt="">
-                </div>
-                <div class="nav_title">
-                    <span>Navs</span>
-                </div>
-            </a>
         </li>
         <li class="">
             <a class="has-arrow" href="#" aria-expanded="false">
-                <div class="nav_icon_small">
-                    <img src="{% static '/img/menu-icon/5.svg' %}" alt="">
-                </div>
-                <div class="nav_title">
-                    <span>Users</span>
-                </div>
-            </a>
-            <ul>
-                <li><a href="user_list.html">Users List</a></li>
-                <li><a href="add_new_user.html">Add New User</a></li>
-            </ul>
-        </li>
-        <li>
-            <a href="Builder.html" aria-expanded="false">
                 <div class="nav_icon_small">
                     <img src="{% static '/img/menu-icon/6.svg' %}" alt="">
                 </div>
                 <div class="nav_title">
-                    <span>Builder </span>
+                    <span>Activities</span>
                 </div>
             </a>
-        </li>
-        <li class="">
-            <a href="invoice.html" aria-expanded="false">
-                <div class="nav_icon_small">
-                    <img src="{% static '/img/menu-icon/7.svg' %}" alt="">
-                </div>
-                <div class="nav_title">
-                    <span>Invoice</span>
-                </div>
-            </a>
+            <ul>
+                <li><a href="user_list.html">Resquested Books</a></li>
+                <li><a href="user_list.html">Borrowed Books</a></li>
+                <li><a href="add_new_user.html">Returned Books</a></li>
+            </ul>
         </li>
         <li class="">
             <a class="has-arrow" href="#" aria-expanded="false">
                 <div class="nav_icon_small">
-                    <img src="{% static '/img/menu-icon/8.svg' %}" alt="">
-                </div>
-                <div class="nav_title">
-                    <span>forms</span>
-                </div>
-            </a>
-            <ul>
-                <li><a href="Basic_Elements.html">Basic Elements</a></li>
-                <li><a href="Groups.html">Groups</a></li>
-                <li><a href="Max_Length.html">Max Length</a></li>
-                <li><a href="Layouts.html">Layouts</a></li>
-            </ul>
-        </li>
-        <li class="">
-            <a href="Board.html" aria-expanded="false">
-                <div class="nav_icon_small">
                     <img src="{% static '/img/menu-icon/9.svg' %}" alt="">
                 </div>
                 <div class="nav_title">
-                    <span>Board</span>
+                    <span>Settings</span>
+                </div>
+            </a>
+            <ul>
+                <li><a href="Basic_Elements.html">Administrators</a></li>
+                <li><a href="Groups.html">Add Administrators</a></li>
+                <li><a href="Max_Length.html">Permissions and Roles</a></li>
+            </ul>
+        </li>
+        <li class="">
+            <a href="{% url 'accounts:logout' %}" aria-expanded="false">
+                <div class="nav_icon_small">
+                    <img src="{% static '/img/menu-icon/8.svg' %}" alt="">
+                </div>
+                <div class="nav_title">
+                    <span>Logout</span>
                 </div>
             </a>
         </li>

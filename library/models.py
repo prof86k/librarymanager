@@ -18,8 +18,7 @@ class Shelve(models.Model):
 
 class Book(models.Model):
     shelve = models.ForeignKey(Shelve,on_delete=models.CASCADE,related_name='shelve_book')
-    admin = models.OneToOneField(acmdl.Administrator,on_delete=models.PROTECT)
-    student = models.OneToOneField(acmdl.Student,on_delete=models.PROTECT)
+    admin = models.ForeignKey(acmdl.Administrator,on_delete=models.PROTECT)
     title = models.CharField(verbose_name="Title:",max_length=255,null=True)
     author = models.CharField(verbose_name="Author:",max_length=255,null=True)
     co_author = models.CharField(verbose_name="Co-Authors:",max_length=255,null=True)
@@ -45,10 +44,12 @@ class Book(models.Model):
     def loaned_by(self):
         self.issue_book = True
         self.book_returned = False
-        return self.student.user.username
+        self.student.user.username
+        self.save()
 
     def returned_by(self):
         self.book_returned = True
         self.issue_book = False
-        return self.student.user.username
+        self.student.user.username
+        self.save()
 

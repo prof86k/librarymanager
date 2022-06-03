@@ -1,0 +1,48 @@
+{% extends "accounts/base.html" %}
+<!--  -->
+{% block title %} shelves {% endblock title %}
+<!--  -->
+{% block pageheader %} Shelves {% endblock pageheader %}
+
+<!--  -->
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="white_card card_height_100 mb_30">
+            <div class="white_card_header">
+                <div class="box_header m-0">
+                    <div class="col-xl-10 col-md-8 col-sm-6">
+                        <div class="main-title">
+                            <h3 class="m-0">Create New Shelve</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="text-end">
+                            <a href="{% url 'library:shelves' %}">View all shelves</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="white_card_body">
+                <form action="{% url 'library:create_shelve' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="shelve">{{form.shelve_name.label}}</label>
+                            <div class="common_input mb_15">
+                                {{form.shelve_name}}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="create_report_btn mt_30">
+                                <input type="submit" class="btn_1 radius_btn d-block text-center btn-block" value="Save" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
