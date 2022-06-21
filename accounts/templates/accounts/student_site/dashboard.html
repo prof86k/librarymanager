@@ -1,0 +1,73 @@
+{% extends "accounts/base.html" %} {% load static %}
+<!--  -->
+{% block title %} Dashboard {% endblock title %}
+<!--  -->
+{% block pageheader %} Dashboard {% endblock pageheader %}
+<!--  -->
+{% block content %}
+<div class="row">
+    <div class="col-xl-12 col-md-12">
+        <div class="white_card card_height_100 mb_30 user_crm_wrapper">
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <div class="single_crm">
+                        <div class="crm_head crm_bg_2 d-flex align-items-center justify-content-between">
+                            <div class="thumb">
+                                <img src="{% static '/img/menu-icon/7.svg' %}" alt="">
+                            </div>
+                            <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
+                        </div>
+                        <div class="crm_body">
+                            <h4>{{library_books}}</h4>
+                            <p>Library Books</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="single_crm ">
+                        <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                            <div class="thumb">
+                                <img src="{% static '/img/menu-icon/7.svg' %}" alt="">
+                            </div>
+                            <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
+                        </div>
+                        <div class="crm_body">
+                            <h4>{{my_books}}</h4>
+                            <p>My Borrowed Books</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="single_crm">
+                        <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                            <div class="thumb">
+                                <img src="{% static '/img/menu-icon/7.svg' %}" alt="">
+                            </div>
+                            <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
+                        </div>
+                        <div class="crm_body">
+                            <h4>{{return_books}}</h4>
+                            <p>My Returned Books</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="single_crm">
+                        <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                            <div class="thumb">
+                                <img src="{% static '/img/menu-icon/7.svg' %}" alt="">
+                            </div>
+                            <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
+                        </div>
+                        <div class="crm_body">
+                            <h4>{{over_due_book}}</h4>
+                            <p>Over Dued Books</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends "accounts/base.html" %}
+<!--  -->
+{% block title %} profile {% endblock title %}
+<!--  -->
+{% block pageheader %} Profile {% endblock pageheader %}
+<!--  -->
+{% block content %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="white_card card_height_100 mb_30">
+            <div class="white_card_header">
+                <div class="box_header m-0">
+                    <div class="main-title">
+                        <h3 class="m-0">Account Profile</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="white_card_body">
+                {% for message in messages %}
+                <div class="container-fluid p-0">
+                    <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">&times;</span>
+                        </button> {{message}}
+                    </div>
+                </div>
+                {% endfor %}
+                <form action="{% url 'accounts:user_profile' user_id=request.user.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="profile_picture">{{form.profile_picture.label}}</label> {{form.profile_picture}}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="full_name">{{form.full_name.label}}</label>
+                                <br> {{form.full_name}}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">{{form.email.label}}</label> {{form.email}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="gender">{{form.gender.label}}</label> {{form.gender}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-4 mb-4">
+                        <button type="submit" class="btn btn-primary btn-block">Update </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

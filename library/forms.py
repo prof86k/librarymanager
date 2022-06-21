@@ -18,7 +18,9 @@ class BookCreationForm(forms.ModelForm):
     class Meta:
         model = mdl.Book
 
-        fields = ['shelve','title','author','co_author','image','book_pdf','book_edition','pub_year','pub_by']
+        fields = ['shelve','title','author',
+        'co_author','image','book_pdf','book_edition',
+        'pub_year','pub_by','number_in_stock']
 
         widgets = {
             'shelve':forms.Select(attrs={
@@ -39,6 +41,9 @@ class BookCreationForm(forms.ModelForm):
             'book_edition':forms.TextInput(attrs={
                 'class':'form-control','placeholder':'Enter book\'s Edition...',
                 'required':False,
+            }),
+            'number_in_stock':forms.NumberInput(attrs={
+                'class':'form-control',
             }),
             'image':forms.ClearableFileInput(attrs={
                 'class':'form-control', 'required':False,

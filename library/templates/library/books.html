@@ -31,6 +31,7 @@
                             <th scope="col">Image</th>
                             <th scope="col">Author</th>
                             <th scope="col">Publisher</th>
+                            <th scope="col">No. In Stock</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -47,6 +48,7 @@
                                 <td class="f_s_12 f_w_400 color_text_6">{{book.author}}</td>
                             </td>
                             <td class="f_s_12 f_w_400 color_text_6">{{book.pub_by}}</td>
+                            <td class="f_s_12 f_w_400 color_text_6">{{book.number_in_stock}}</td>
                             <td class="f_s_12 f_w_400 text-center">
                                 {% if book.issue_book %}
                                 <span class="btn-outline-danger">Borrowed</span>

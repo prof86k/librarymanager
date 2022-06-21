@@ -8,6 +8,7 @@ class User(AbstractUser):
     is_student = models.BooleanField(default=False)
     full_name = models.CharField(verbose_name="Full Name:",max_length=255,null=True)
     gender = models.CharField(verbose_name='Gender',max_length=25,null=True)
+    profile_picture = models.ImageField(verbose_name='Proile Pic',upload_to='images/user_profile/%d/%m/%y',null=True)
 
 
 

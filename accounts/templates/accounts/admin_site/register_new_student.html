@@ -1,0 +1,55 @@
+{% extends "accounts/base.html" %}
+<!--  -->
+{% block title %} new user registration {% endblock title %}
+<!--  -->
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="white_card card_height_100 mb_30">
+            <div class="white_card_header">
+                <div class="box_header m-0">
+                    <div class="main-title">
+                        <h3 class="m-0">Add New User</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="white_card_body">
+                <form action="{% url 'accounts:student_registeration' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <label for="email">{{form.email.label}}</label>
+                            <div class="common_input mb_15">
+                                {{form.email}}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="username">{{form.username.label}}</label>
+                            <div class="common_input mb_15">
+                                {{form.username}}
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-check mb_15">
+                                {{form.is_admin}}
+                                <label class="form-check-label" for="is_admin">{{form.is_admin.label}}</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-check mb_15">
+                                {{form.is_student}}
+                                <label class="form-check-label" for="is_student">{{form.is_student.label}}</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="create_report_btn mt_30">
+                                <input type="submit" class="btn_1 radius_btn d-block text-center btn-block" value="Save" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

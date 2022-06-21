@@ -12078,7 +12078,7 @@ table.lms_table_active3.dataTable thead .sorting_desc::after {
 
 .user_crm_wrapper .single_crm .crm_body p {
     font-size: 14px;
-    color: #9b9aba;
+    color: #000000;
     font-weight: 400
 }
 
@@ -12108,7 +12108,7 @@ table.lms_table_active3.dataTable thead .sorting_desc::after {
 
 .user_crm_wrapper .crm_reports_bnner a {
     color: #efc343;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 300
 }
 
@@ -12117,15 +12117,16 @@ table.lms_table_active3.dataTable thead .sorting_desc::after {
 }
 
 .crm_bg_2 {
-    background: #c388f6!important
+    background: #c388ee!important;
 }
 
 .crm_bg_3 {
-    background: #f5f5ff!important
+    background: #030303!important;
+    color: #ffffff!important;
 }
 
 .crm_bg_3 i {
-    color: #58377e!important
+    color: #fff0eb!important
 }
 
 .max-width-220 {
