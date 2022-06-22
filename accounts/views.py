@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.utils import timezone
+
+from library.views import confirm_returned_book
 from . import forms as fms
 from . import models as mdl
 from library import models as lmdl
@@ -35,7 +38,7 @@ def logout_user(request):
 
 def admin_dashboard(request):
     total_books = lmdl.Book.objects.count()
-    borrowed_books = lmdl.Book.objects.filter(issue_book=True).count()
+    borrowed_books = lmdl.Requestedbook.objects.filter(issue_book=True).count()
     returned_books = lmdl.Borrowedbook.objects.filter(book_returned=True).count()
     total_shelves = lmdl.Shelve.objects.count()
     books = lmdl.Book.objects.order_by('-date_updated').all()
@@ -43,7 +46,7 @@ def admin_dashboard(request):
         'total_books':total_books,
         'total_shelves':total_shelves,
         'borrowed_books':borrowed_books,
-        'no_returned_books':borrowed_books-returned_books,
+        'no_returned_books':returned_books,
         'books':books,
         }
     return render(request,'accounts/admin_site/dashboard.html',context)
@@ -130,7 +133,7 @@ def user_profile(request,user_id):
 
 def student_dashboard(request):
     library_books = lmdl.Book.objects.count()
-    my_book = lmdl.Borrowedbook.objects.count()
+    my_book = lmdl.Borrowedbook.objects.filter(book_returned=False,borrower=request.user).count()
     my_return_books = lmdl.Borrowedbook.objects.filter(borrower=request.user,book_returned=True).count()
     over_due_books = lmdl.Borrowedbook.objects.filter(borrower=request.user).all()
     over_due = 0
@@ -151,33 +154,31 @@ def library_books(request):
     return render(request,'accounts/student_site/library_books.html',context)
 
 def my_borrowed_books(request):
-    context = {}
+    my_books = lmdl.Borrowedbook.objects.order_by('-book_returned').filter(borrower=request.user).all()
+    context = {'my_books':my_books}
     return render(request,'accounts/student_site/my_borrowed_books.html',context)
 
 def my_read_books(request):
-    context = {}
+    read_books = lmdl.Borrowedbook.objects.order_by('-date_returned').filter(borrower=request.user,book_returned=True).all()
+    context = {'read_books':read_books}
     return render(request,'accounts/student_site/my_read_books.html',context)
 
 def my_returned_books(request):
-    context = {}
+    returned_books = lmdl.Borrowedbook.objects.filter(borrower=request.user,book_returned=True,confirm_returned_book=True).all()
+    context = {'returned_books':returned_books}
     return render(request,'accounts/student_site/my_returned_books.html',context)
 
-def my_read_books_category(request):
-    context = {}
-    return render(request,'accounts/student_site/read_books_category.html',context)
-
 def return_a_book(request,book_id):
-    context = {}
+    my_borrowed_book = get_object_or_404(lmdl.Borrowedbook,id=book_id,borrower=request.user)
+    my_borrowed_book.book_returned = True
+    my_borrowed_book.date_returned = timezone.now()
+    my_borrowed_book.save()
     return redirect('accounts:my-borrowed-books')
 
 def request_a_book(request,book_id):
     book = get_object_or_404(lmdl.Book,id=book_id)
     if book.is_avaliable():
-        if (book.requested_user != request.user):
-            save_requested_book(book=book,user=request.user)
-            messages.success(request,'Your Request For The Book Was Successful.')
-            return redirect('accounts:library-books')
-        elif book.request_book == False:
+        if (lmdl.Requestedbook.objects.filter(book=book,requested_user=request.user,request_book=True)).first() is None:
             save_requested_book(book=book,user=request.user)
             messages.success(request,'Your Request For The Book Was Successful.')
             return redirect('accounts:library-books')
@@ -189,21 +190,20 @@ def request_a_book(request,book_id):
         return redirect('accounts:library-books')
 
 def save_requested_book(book,user):
-    book.request_book = True
-    book.requested_user = user
+    lmdl.Requestedbook.objects.create(book=book,requested_user=user,request_book=True)
     book.number_in_stock -= 1
     book.save()
 
 def disable_my_book_request(request,book_id):
-    book = get_object_or_404(lmdl.Book,id=book_id,requested_user=request.user)
-    if (book.requested_user == request.user):
-        book.request_book = False
-        book.number_in_stock += 1
-        book.save()
-        messages.success(request,'Request For Book Has Been Cancelled!')
-        return redirect('accounts:my-requested-books')
+    requested_book = get_object_or_404(lmdl.Requestedbook,id=book_id,requested_user=request.user)
+    requested_book.request_book = False
+    requested_book.book.number_in_stock += 1
+    requested_book.book.save()
+    requested_book.delete()
+    messages.success(request,'Request For Book Has Been Cancelled!')
+    return redirect('accounts:my-requested-books')
 
 def my_requested_books(request):
-    my_books = lmdl.Book.objects.filter(requested_user=request.user,request_book=True).all()
+    my_books = lmdl.Requestedbook.objects.filter(requested_user=request.user,request_book=True).all()
     context = {'my_books':my_books}
     return render(request,'accounts/student_site/my_requested_books.html',context)

@@ -1,13 +1,66 @@
 {% extends "accounts/base.html" %}
 <!--  -->
-{% block title %} my read books {% endblock title %}
+{% block title %} Read books {% endblock title %}
 <!--  -->
 {% block pageheader %} My Read Books {% endblock pageheader %}
 <!--  -->
 {% block content %}
 <div class="row">
     <div class="col-xl-12 col-md-12">
-
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                <button class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="True">&times;</span>
+        </button> {{message}}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="white_card card_height_100 mb_30 user_crm_wrapper">
+            <div class="row mb-3">
+                {% if read_books %}
+                <!--  -->
+                {% for book in read_books %}
+                <div class="col-lg-6">
+                    <div class="single_crm">
+                        <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                            <div class="thumb white_text">
+                                <p>{{book.book.title}}</p>
+                            </div>
+                        </div>
+                        <div class="crm_body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <img class="img-fluid radius_10 mb-3 mr-3" src="{{book.book.image.url}}" alt="" style="width:50%;height:50%;">
+                                <div class="mb-3">
+                                    <p><b>Author:</b> {{book.book.author}}</p>
+                                    <p><b>Edition:</b> {{book.book.book_edition}}</p>
+                                    <p><b>Publisher:</b> {{book.book.pub_by}}</p>
+                                    {% if book.book_returned and book.confirm_returned_book %}
+                                    <p><b>Status:</b> <span class="text-success">Returned</span><br> By: {{book.borrower}}
+                                    </p>
+                                    {% elif book.book_returned and not book.confirm_returned_book %}
+                                    <p><b>Status:</b> <span class="text-warning">Returned Not Confirmed</span><br> By: {{book.borrower}}
+                                    </p>
+                                    {% else %}
+                                    <p><b>Status:</b> <span class="text-warning">Not Returned</span><br> By: {{book.borrower}}
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p class="text-center"> <b>Returned Date:</b> {{book.date_returned}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix visible-md"></div>
+                {% endfor %}
+                <!--  -->
+                {% else %}
+                <div class="col-md-12 text-center">
+                    <p>You might not have read any books yet!</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

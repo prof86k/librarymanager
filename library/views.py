@@ -72,15 +72,43 @@ def view_book_details(request,book_id):
     context = {'book':book}
     return render(request,'library/view_book_details.html',context)
 
-def issue_book(request):
+def view_requested_book(request):
     '''lend book to student'''
-    context = {}
+    requested_books = mdl.Requestedbook.objects.filter(request_book=True,issue_book=False).all()
+    context = {'requsted_books':requested_books}
     return render(request, 'library/issue_book.html',context)
+
+def issue_book(request,book_id,borrower_id):
+    requested_book = get_object_or_404(mdl.Requestedbook,id=book_id,requested_user=borrower_id)
+    issued_book = mdl.Borrowedbook(book=requested_book.book,
+    borrower=acmdl.User.objects.get(id=borrower_id)
+    )
+    requested_book.issue_book = True
+    requested_book.request_book = False
+    issued_book.save()
+    requested_book.save()
+    return redirect('library:requested_book')
 
 def view_issued_books(request):
     '''view lended books'''
-    context = {}
+    issued_books = mdl.Requestedbook.objects.filter(request_book=False,issue_book=True).all()
+    context = {'issued_books':issued_books}
     return render(request,'library/view_issued_books.html',context)
+
+def view_returned_books(request):
+    returned_books = mdl.Borrowedbook.objects.order_by('-date_returned').filter(book_returned=True).all()
+    context = {'returned_books':returned_books}
+    return render(request,'library/view_returned_books.html',context)
+
+def confirm_returned_book(request,book_id):
+    borrowed_book = get_object_or_404(mdl.Borrowedbook,id=book_id,confirm_returned_book=False,book_returned=True)
+    if borrowed_book.book_returned:
+        borrowed_book.confirm_returned_book = True
+        borrowed_book.book.number_in_stock += 1
+        borrowed_book.save()
+    return redirect('library:returned_books')
+    
+
 
 def mybooks(request):
     '''student viewing their borrowed books'''

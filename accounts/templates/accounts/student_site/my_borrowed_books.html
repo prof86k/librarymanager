@@ -7,7 +7,54 @@
 {% block content %}
 <div class="row">
     <div class="col-xl-12 col-md-12">
-
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                <button class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="True">&times;</span>
+        </button> {{message}}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="white_card card_height_100 mb_30 user_crm_wrapper">
+            <div class="row mb-3">
+                {% for book in my_books %}
+                <div class="col-lg-6">
+                    <div class="single_crm">
+                        <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                            <div class="thumb white_text">
+                                <p>{{book.book.title}}</p>
+                            </div>
+                        </div>
+                        <div class="crm_body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <img class="img-fluid radius_10 mr-3" src="{{book.book.image.url}}" alt="" style="width:50%;height:70%;">
+                                <div class="mb-3">
+                                    <p><b>Author:</b> {{book.book.author}}</p>
+                                    <p><b>Edition:</b> {{book.book.book_edition}}</p>
+                                    <p><b>Publisher:</b> {{book.book.pub_by}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% if book.book_returned and not book.confirm_returned_book%}
+                        <div class="col-md-12">
+                            <b>Return Status:</b> <span class="text-warning">Not Confirmed</span>
+                        </div>
+                        {% elif book.book_returned and book.confirm_returned_book %}
+                        <div class="col-md-12">
+                            <b>Return Status:</b> <span class="text-success">Confirmed</span>
+                        </div>
+                        {% else %}
+                        <div class="crm-footer">
+                            <a class="text-end" href="{% url 'accounts:return-book' book_id=book.id %}">Return Book</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="clearfix visible-md"></div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

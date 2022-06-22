@@ -27,7 +27,6 @@ urlpatterns = [
     path('my-borrowed/books',vi.my_borrowed_books,name='my-borrowed-books'), 
     path('my-read/books',vi.my_read_books,name='my-read-books'), 
     path('my-returned/books',vi.my_returned_books,name='my-returned-books'), 
-    path('my-read-books/category',vi.my_read_books_category,name='my-read-books-category'), 
-    path('return-a/book',vi.return_a_book,name='return-book'),
+    path('return-a/book/<int:book_id>',vi.return_a_book,name='return-book'),
     path('my-request/books',vi.my_requested_books,name='my-requested-books'),
 ]

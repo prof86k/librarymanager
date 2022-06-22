@@ -1,0 +1,51 @@
+{% extends "accounts/base.html" %}
+<!--  -->
+{% block title %} requested books {% endblock title %}
+<!--  -->
+{% block pageheader %} Requested Books {% endblock pageheader %}
+<!--  -->
+{% block content %}
+<div class="row">
+    <div class="col-xl-12 col-md-12">
+        {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                <button class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="True">&times;</span>
+        </button> {{message}}
+            </div>
+        </div>
+        {% endfor %}
+        <div class="white_card card_height_100 mb_30 user_crm_wrapper">
+            <div class="row mb-3">
+                {% for book in requsted_books %}
+                <div class="col-lg-6">
+                    <div class="single_crm">
+                        <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
+                            <div class="thumb white_text">
+                                <p>{{book.book.title}}</p>
+                            </div>
+                        </div>
+                        <div class="crm_body">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <img class="img-fluid radius_10" src="{{book.book.image.url}}" alt="" style="width:50%;height:50%;">
+                                <div class="lead">
+                                    <p>{{book.book.author}}</p>
+                                    <p>{{book.book.book_edition}}</p>
+                                    <p>{{book.book.pub_by}}</p>
+                                    <p>Requested By: {{book.requested_user}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="crm-footer">
+                            <a class="text-end" href="{% url 'library:issue_book' book_id=book.id borrower_id=book.requested_user.id %}">Issue Book</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix visible-md"></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

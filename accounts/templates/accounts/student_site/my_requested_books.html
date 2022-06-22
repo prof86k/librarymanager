@@ -18,21 +18,21 @@
         {% endfor %}
         <div class="white_card card_height_100 mb_30 user_crm_wrapper">
             <div class="row mb-3">
-                {% for book in my_books %}
+                {% if my_books %} {% for book in my_books %}
                 <div class="col-lg-6">
                     <div class="single_crm">
                         <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
                             <div class="thumb white_text">
-                                <p>{{book.title}}</p>
+                                <p>{{book.book.title}}</p>
                             </div>
                         </div>
                         <div class="crm_body">
                             <div class="d-flex align-items-center justify-content-between">
-                                <img class="img-fluid radius_10" src="{{book.image.url}}" alt="" style="width:50%;height:50%;">
+                                <img class="img-fluid radius_10 mr-3" src="{{book.book.image.url}}" alt="" style="width:50%;height:50%;">
                                 <div class="lead">
-                                    <p>{{book.author}}</p>
-                                    <p>{{book.book_edition}}</p>
-                                    <p>{{book.pub_by}}</p>
+                                    <p><b>Author:</b> {{book.book.author}}</p>
+                                    <p><b>Edition:</b> {{book.book.book_edition}}</p>
+                                    <p><b>Publisher:</b> {{book.book.pub_by}}</p>
                                     {% if not book.issue_book %}
                                     <p class="text-warning">Pending</p>
                                     {% endif %}
@@ -44,7 +44,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="clearfix visible-md"></div>
                 {% endfor %}
+                <!--  -->
+                {% else %}
+                <div class="col-md-12 text-center">
+                    <p>No Requested Books So Far</p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

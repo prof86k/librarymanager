@@ -22,7 +22,6 @@ class Shelve(models.Model):
 class Book(models.Model):
     shelve = models.ForeignKey(Shelve,on_delete=models.CASCADE,related_name='shelve_book')
     admin = models.ForeignKey(acmdl.Administrator,on_delete=models.PROTECT)
-    requested_user = models.ForeignKey(acmdl.User,on_delete=models.PROTECT)
     title = models.CharField(verbose_name="Title:",max_length=255,null=True)
     author = models.CharField(verbose_name="Author:",max_length=255,null=True)
     co_author = models.CharField(verbose_name="Co-Authors:",max_length=255,null=True)
@@ -34,9 +33,7 @@ class Book(models.Model):
     pub_by = models.CharField(verbose_name='Publish By:',max_length=255,null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-    issue_book = models.BooleanField(verbose_name="Issued:",default=False)
     date_to_return = models.DateField(verbose_name='Date to Return',null=True)
-    request_book = models.BooleanField(verbose_name="Request Book:",default=False)
 
     class Meta:
         managed = True
@@ -58,7 +55,8 @@ class Borrowedbook(models.Model):
     book = models.ForeignKey(Book,on_delete=models.PROTECT,related_name='my_borrowed_books')
     borrower = models.ForeignKey(acmdl.User,on_delete=models.PROTECT,related_name='book_borrowers')
     date_borrowed = models.DateTimeField(auto_now_add=True)
-    book_returned = models.BooleanField(verbose_name="Book Returned:",default=False)
+    book_returned = models.BooleanField(default=False)
+    confirm_returned_book = models.BooleanField(default=False)
     date_returned = models.DateField(null=True)
     
     class Meta:
@@ -76,7 +74,8 @@ class Borrowedbook(models.Model):
 
     def over_due_non_returned_books(self):
         '''user does not return the book on or before the due date'''
-        if self.date_to_return < self.date_returned:
+        book_settings = Booksettings.objects.first()
+        if book_settings and (book_settings.date_to_return < self.date_returned):
             return True
         return False
 
@@ -88,6 +87,7 @@ class Booksettings(models.Model):
     max_books_to_borrow = models.PositiveIntegerField(verbose_name='Max Books to Borrow:',null=True,blank=True)
     fine_amount = models.DecimalField(verbose_name='Fine Amount:',decimal_places=2,max_digits=20,null=True,blank=True)
     fine_to = models.ForeignKey(acmdl.User,on_delete=models.PROTECT,related_name='fine_people')
+    date_to_return = models.DateField(verbose_name='Date to Return',null=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -97,3 +97,20 @@ class Booksettings(models.Model):
 
     def __str__(self) -> str:
         return 'Settings'
+
+
+class Requestedbook(models.Model):
+    book = models.ForeignKey(Book,on_delete=models.CASCADE,related_name='requested_books')
+    requested_user = models.ForeignKey(acmdl.User,on_delete=models.PROTECT)
+    issue_book = models.BooleanField(verbose_name="Issued:",default=False)
+    request_book = models.BooleanField(verbose_name="Request Book:",default=False)
+    date_requested = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        verbose_name = 'Requested Book'
+        verbose_name_plural = 'Requested Books'
+
+    def __str__(self) -> str:
+        return f'{self.requested_user} {self.book}'

@@ -1,8 +1,8 @@
 {% extends "accounts/base.html" %}
 <!--  -->
-{% block title %} my returned books {% endblock title %}
+{% block title %} returned books {% endblock title %}
 <!--  -->
-{% block pageheader %} My Returned Books {% endblock pageheader %}
+{% block pageheader %} Returned Books {% endblock pageheader %}
 <!--  -->
 {% block content %}
 <div class="row">
@@ -18,7 +18,7 @@
         {% endfor %}
         <div class="white_card card_height_100 mb_30 user_crm_wrapper">
             <div class="row mb-3">
-                {% if returned_books %} {% for book in returned_books %}
+                {% for book in returned_books %}
                 <div class="col-lg-6">
                     <div class="single_crm">
                         <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
@@ -28,29 +28,28 @@
                         </div>
                         <div class="crm_body">
                             <div class="d-flex align-items-center justify-content-between">
-                                <img class="img-fluid radius_10 mr-3" src="{{book.book.image.url}}" alt="" style="width:50%;height:50%;">
+                                <img class="img-fluid radius_10 mr-3" src="{{book.book.image.url}}" alt="" style="width:50%;height:70%;">
                                 <div class="mb-3">
                                     <p><b>Author:</b> {{book.book.author}}</p>
                                     <p><b>Edition:</b> {{book.book.book_edition}}</p>
                                     <p><b>Publisher:</b> {{book.book.pub_by}}</p>
-                                    {% if book.book_returned %}
-                                    <p>Status: <span class="text-success">Returned</span></p>
+                                    {% if book.book_returned and book.confirm_returned_book%}
+                                    <p>Status: <span class="text-success">Returned</span><br> By: {{book.borrower}}
+                                    </p>
                                     {% endif %}
                                     <p>Returned Date: {{book.date_returned}}</p>
                                 </div>
                             </div>
+                            {% if book.confirm_returned_book == False %}
+                            <div class="col-md-12 text-center">
+                                <a href="{% url 'library:confirm_returns' book_id=book.id %}">Confirm Return Book</a>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
                 <div class="clearfix visible-md"></div>
                 {% endfor %}
-                <!--  -->
-                {% else %}
-                <div class="col-md-12 text-center">
-                    <p>You Have Not Returned Any Book Yet!</p>
-                </div>
-                {% endif %}
-
             </div>
         </div>
     </div>
