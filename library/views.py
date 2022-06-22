@@ -1,5 +1,7 @@
+from email import message
 from django.shortcuts import render,redirect,get_object_or_404
-from django.utils.timezone import now
+from django.utils.timezone import now,timedelta
+from django.contrib import messages
 
 from . import models as mdl
 from . import forms as fms
@@ -79,12 +81,14 @@ def view_requested_book(request):
     return render(request, 'library/issue_book.html',context)
 
 def issue_book(request,book_id,borrower_id):
+    book_settings = mdl.Booksettings.objects.first()
     requested_book = get_object_or_404(mdl.Requestedbook,id=book_id,requested_user=borrower_id)
     issued_book = mdl.Borrowedbook(book=requested_book.book,
     borrower=acmdl.User.objects.get(id=borrower_id)
     )
     requested_book.issue_book = True
     requested_book.request_book = False
+    issued_book.date_to_return = (now() + timedelta(days=book_settings.number_of_day_to_return)).date()
     issued_book.save()
     requested_book.save()
     return redirect('library:requested_book')
@@ -107,18 +111,28 @@ def confirm_returned_book(request,book_id):
         borrowed_book.book.number_in_stock += 1
         borrowed_book.save()
     return redirect('library:returned_books')
-    
 
-
-def mybooks(request):
+def general_settings(request):
     '''student viewing their borrowed books'''
-    context = {}
-    return render(request,'accounts/student_site/mybooks.html',context)
+    book_settings = mdl.Booksettings.objects.first()
+    if request.method == 'POST':
+        form = fms.GeneralBookSettingsForm(instance=book_settings,data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Settings Added Successfully.')
+            return redirect('library:settings')
+        messages.error(request,'The form containers some invalid information.')
+        return redirect('library:settings')
+    else:
+        form = fms.GeneralBookSettingsForm(instance=book_settings)
+    context = {'form':form}
+    return render(request,'library/general_settings.html',context)
 
 def expired_books(request):
     '''system showing lend but none returned books'''
-    context = {}
-    return render(request, 'accounts/student_site/expired_none_return_book.html',context)
+    over_due_books = mdl.Borrowedbook.objects.all()
+    context = {'over_due_books':over_due_books}
+    return render(request, 'library/expired_none_return_book.html',context)
 
 # =============================== Edit actions =======================
 def edit_shelve(request,shelve_id):

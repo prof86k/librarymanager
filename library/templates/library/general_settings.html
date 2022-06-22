@@ -1,0 +1,70 @@
+{% extends "accounts/base.html" %}
+<!--  -->
+{% block title %} settings {% endblock title %}
+<!--  -->
+{% block pageheader %} Settings {% endblock pageheader %}
+<!--  -->
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="white_card card_height_100 mb_30">
+            <div class="white_card_header">
+                <div class="box_header m-0">
+                    <div class="col-xl-10 col-md-8 col-sm-6">
+                        <div class="main-title">
+                            <h3 class="m-0">Library Book Settings</h3>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="text-end">
+                            <a href="{% url 'library:shelves' %}">View all shelves</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="white_card_body">
+                {% for message in messages %}
+                <div class="container-fluid p-0">
+                    <div class="alert {{message.tags}} alert-dismissible" role="alert">
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="True">&times;</span>
+                        </button> {{message}}
+                    </div>
+                </div>
+                {% endfor %}
+                <form action="{% url 'library:settings' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="max_books_to_borrow">{{form.max_books_to_borrow.label}}</label>
+                            <div class="common_input mb_15">
+                                {{form.max_books_to_borrow}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="fine_amount">{{form.fine_amount.label}}</label>
+                            <div class="common_input mb_15">
+                                {{form.fine_amount}}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="number_of_day_to_return">{{form.number_of_day_to_return.label}}</label>
+                            <div class="common_input mb-15">
+                                {{form.number_of_day_to_return}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="create_report_btn mt_30">
+                                <input type="submit" class="btn_1 radius_btn d-block text-center btn-block" value="Save" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

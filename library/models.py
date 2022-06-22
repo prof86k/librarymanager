@@ -1,5 +1,6 @@
-from tabnanny import verbose
+from datetime import date
 from django.db import models
+from django.utils.timezone import timedelta,now
 from accounts import models as acmdl
 
 # Create your models here.
@@ -58,6 +59,8 @@ class Borrowedbook(models.Model):
     book_returned = models.BooleanField(default=False)
     confirm_returned_book = models.BooleanField(default=False)
     date_returned = models.DateField(null=True)
+    date_to_return = models.DateField(null=True)
+    my_fine = models.DecimalField(verbose_name='Fine Amount:',decimal_places=2,max_digits=20,default=0.0)
     
     class Meta:
         managed = True
@@ -74,8 +77,12 @@ class Borrowedbook(models.Model):
 
     def over_due_non_returned_books(self):
         '''user does not return the book on or before the due date'''
-        book_settings = Booksettings.objects.first()
-        if book_settings and (book_settings.date_to_return < self.date_returned):
+        book_setting = Booksettings.objects.first()
+        # prev_days = (self.date_borrowed).date()+timedelta(days=book_setting.number_of_day_to_return)
+        
+        if (self.confirm_returned_book == False) and self.date_to_return and ((self.date_to_return) < (now()).date()):
+            self.my_fine = book_setting.fine_amount
+            self.save()
             return True
         return False
 
@@ -86,8 +93,7 @@ class Borrowedbook(models.Model):
 class Booksettings(models.Model):
     max_books_to_borrow = models.PositiveIntegerField(verbose_name='Max Books to Borrow:',null=True,blank=True)
     fine_amount = models.DecimalField(verbose_name='Fine Amount:',decimal_places=2,max_digits=20,null=True,blank=True)
-    fine_to = models.ForeignKey(acmdl.User,on_delete=models.PROTECT,related_name='fine_people')
-    date_to_return = models.DateField(verbose_name='Date to Return',null=True)
+    number_of_day_to_return = models.PositiveIntegerField(verbose_name='Days to Return Book:',null=True,blank=False)
     date_created = models.DateTimeField(auto_now_add=True)
 
     class Meta:

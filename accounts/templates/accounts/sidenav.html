@@ -79,6 +79,7 @@
                 <li><a href="{% url 'library:requested_book' %}">Resquested Books</a></li>
                 <li><a href="{% url 'library:view_issue_books' %}">Borrowed Books</a></li>
                 <li><a href="{% url 'library:returned_books' %}">Returned Books</a></li>
+                <li><a href="{% url 'library:expired_books' %}">View Over Due Books</a></li>
             </ul>
         </li>
         <li class="">
@@ -91,8 +92,7 @@
                 </div>
             </a>
             <ul>
-                <li><a href="Basic_Elements.html">Add Settings</a></li>
-                <li><a href="Groups.html">View Over Due Books</a></li>
+                <li><a href="{% url 'library:settings' %}">Add Settings</a></li>
             </ul>
         </li>
         <li class="">
@@ -143,6 +143,8 @@
             </a>
             <ul>
                 <li><a href="{% url 'accounts:my-read-books' %}">All Read Books</a></li>
+                <li><a href="{% url 'accounts:overdues' %}">My Overdue Books</a></li>
+
             </ul>
         </li>
         <li class="">

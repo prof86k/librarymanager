@@ -59,3 +59,19 @@ class BookCreationForm(forms.ModelForm):
                 'required':False,
             }),
         }
+
+class GeneralBookSettingsForm(forms.ModelForm):
+    class Meta:
+        model = mdl.Booksettings
+        fields = ['max_books_to_borrow','fine_amount','number_of_day_to_return']
+        widgets = {
+            'max_books_to_borrow':forms.NumberInput(attrs={
+                'class':'form-control','placeholder':'Enter Number of Books a User can Borrow ....'
+            }),
+            'fine_amount':forms.NumberInput(attrs={
+                'class':'form-control', 'placeholder':'Enter Amount a User can be Fine ...'
+            }),
+            'number_of_day_to_return':forms.NumberInput(attrs={
+                'class':'form-control', 'placeholder':'Enter the number of days a User Must Return a Book...'
+            })
+        }

@@ -33,6 +33,17 @@
                                     <p><b>Author:</b> {{book.book.author}}</p>
                                     <p><b>Edition:</b> {{book.book.book_edition}}</p>
                                     <p><b>Publisher:</b> {{book.book.pub_by}}</p>
+                                    {% if book.over_due_non_returned_books %}
+                                    <p><b>Overdue Date:</b>
+                                        <span class="text-danger">{{book.date_to_return}}</span> </p>
+                                    <p><b>Fine:</b> Gh&cent;{{book.my_fine}}</p>
+                                    {% else %}
+                                    <p><b>Returning Date:</b>
+                                        <span class="text-info">{{book.date_to_return}}</span>
+                                        <!--  -->
+                                    </p>
+
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

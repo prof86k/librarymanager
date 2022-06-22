@@ -33,11 +33,25 @@
                                     <p><b>Author:</b> {{book.book.author}}</p>
                                     <p><b>Edition:</b> {{book.book.book_edition}}</p>
                                     <p><b>Publisher:</b> {{book.book.pub_by}}</p>
+
                                     {% if book.book_returned and book.confirm_returned_book%}
                                     <p>Status: <span class="text-success">Returned</span><br> By: {{book.borrower}}
                                     </p>
+                                    {% else %}
+                                    <p> <b>Issued To:</b> {{book.returned_by}}</p>
+                                    <p> <b>Status:</b> <span class="text-warning">Not Returned</span> </p>
                                     {% endif %}
-                                    <p>Returned Date: {{book.date_returned}}</p>
+                                    <p> <b>Returned Date:</b> {{book.date_returned}}</p>
+                                    {% if book.over_due_non_returned_books %}
+                                    <p><b>Overdue Date:</b>
+                                        <span class="text-danger">{{book.date_to_return}}</span> </p>
+                                    <p><b>Fine:</b> Gh&cent;{{book.my_fine}}</p>
+                                    {% else %}
+                                    <p><b>Returning Date:</b>
+                                        <span class="text-info">{{book.date_to_return}}</span>
+                                        <!--  -->
+                                    </p>
+                                    {% endif %}
                                 </div>
                             </div>
                             {% if book.confirm_returned_book == False %}

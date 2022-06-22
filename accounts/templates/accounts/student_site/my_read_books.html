@@ -36,18 +36,20 @@
                                     <p><b>Edition:</b> {{book.book.book_edition}}</p>
                                     <p><b>Publisher:</b> {{book.book.pub_by}}</p>
                                     {% if book.book_returned and book.confirm_returned_book %}
-                                    <p><b>Status:</b> <span class="text-success">Returned</span><br> By: {{book.borrower}}
+                                    <p><b>Status:</b> <span class="text-success">Returned</span><br> By: {{book.returned_by}}
                                     </p>
                                     {% elif book.book_returned and not book.confirm_returned_book %}
-                                    <p><b>Status:</b> <span class="text-warning">Returned Not Confirmed</span><br> By: {{book.borrower}}
+                                    <p><b>Status:</b> <span class="text-warning">Returned Not Confirmed</span><br> By: {{book.returned_by}}
                                     </p>
                                     {% else %}
-                                    <p><b>Status:</b> <span class="text-warning">Not Returned</span><br> By: {{book.borrower}}
+                                    <p><b>Status:</b> <span class="text-warning">Not Returned</span><br> By: {{book.returned_by}}
                                     </p>
                                     {% endif %}
+                                    <p><b>My Fine:</b> <span class="text-warning">{{book.my_fine}}</span><br>
+                                    </p>
                                 </div>
                             </div>
-                            <p class="text-center"> <b>Returned Date:</b> {{book.date_returned}}</p>
+                            <p class="text-start"> <b>Returned Date:</b> {{book.date_returned}}</p>
                         </div>
                     </div>
                 </div>

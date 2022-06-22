@@ -1,9 +1,5 @@
 from django.urls import path
-
-
 from . import views as vi
-
-
 app_name = "accounts"
 
 urlpatterns = [
@@ -29,4 +25,5 @@ urlpatterns = [
     path('my-returned/books',vi.my_returned_books,name='my-returned-books'), 
     path('return-a/book/<int:book_id>',vi.return_a_book,name='return-book'),
     path('my-request/books',vi.my_requested_books,name='my-requested-books'),
+    path('my-overdue/books',vi.my_overdue_books,name='overdues'),
 ]

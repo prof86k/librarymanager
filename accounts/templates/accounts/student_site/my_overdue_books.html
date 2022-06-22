@@ -1,8 +1,8 @@
 {% extends "accounts/base.html" %}
 <!--  -->
-{% block title %} overdue books {% endblock title %}
+{% block title %} my overdue books {% endblock title %}
 <!--  -->
-{% block pageheader %} Overdue Books {% endblock pageheader %}
+{% block pageheader %} My Overdue Books {% endblock pageheader %}
 <!--  -->
 {% block content %}
 <div class="row">
@@ -18,7 +18,9 @@
         {% endfor %}
         <div class="white_card card_height_100 mb_30 user_crm_wrapper">
             <div class="row mb-3">
-                {% for book in over_due_books %} {% if book.over_due_non_returned_books %}
+                {% for book in overs %} {% if book.over_due_non_returned_books %}
+
+
                 <div class="col-lg-6">
                     <div class="single_crm">
                         <div class="crm_head crm_bg_3 d-flex align-items-center justify-content-between">
@@ -33,19 +35,23 @@
                                     <p><b>Author:</b> {{book.book.author}}</p>
                                     <p><b>Edition:</b> {{book.book.book_edition}}</p>
                                     <p><b>Publisher:</b> {{book.book.pub_by}}</p>
-                                    {% if book.over_due_non_returned_books %}
-                                    <p><b>Overdue Date:</b>
-                                        <span class="text-danger">{{book.date_to_return}}</span> </p>
-                                    <p><b>Fine:</b> Gh&cent;{{book.my_fine}}</p>
-                                    {% else %}
-                                    <p><b>Returning Date:</b>
-                                        <span class="text-info">{{book.date_to_return}}</span>
-                                        <!--  -->
-                                    </p>
-                                    {% endif %}
+                                    <p class="text-danger"><b>Returning Date:</b> {{book.date_to_return}}</p>
                                 </div>
                             </div>
                         </div>
+                        {% if book.book_returned and not book.confirm_returned_book%}
+                        <div class="col-md-12">
+                            <b>Return Status:</b> <span class="text-warning">Not Confirmed</span>
+                        </div>
+                        {% elif book.book_returned and book.confirm_returned_book %}
+                        <div class="col-md-12">
+                            <b>Return Status:</b> <span class="text-success">Confirmed</span>
+                        </div>
+                        {% else %}
+                        <div class="crm-footer">
+                            <a class="text-end" href="{% url 'accounts:return-book' book_id=book.id %}">Return Book</a>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="clearfix visible-md"></div>

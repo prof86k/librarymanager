@@ -49,6 +49,10 @@ def admin_dashboard(request):
         'no_returned_books':returned_books,
         'books':books,
         }
+    # for book in lmdl.Borrowedbook.objects.all():
+        # book.delete()
+    # for book in lmdl.Requestedbook.objects.all():
+        # book.delete()
     return render(request,'accounts/admin_site/dashboard.html',context)
 
 
@@ -134,7 +138,7 @@ def user_profile(request,user_id):
 def student_dashboard(request):
     library_books = lmdl.Book.objects.count()
     my_book = lmdl.Borrowedbook.objects.filter(book_returned=False,borrower=request.user).count()
-    my_return_books = lmdl.Borrowedbook.objects.filter(borrower=request.user,book_returned=True).count()
+    my_return_books = lmdl.Borrowedbook.objects.filter(borrower=request.user,book_returned=True,confirm_returned_book=True).count()
     over_due_books = lmdl.Borrowedbook.objects.filter(borrower=request.user).all()
     over_due = 0
     for book in over_due_books:
@@ -207,3 +211,8 @@ def my_requested_books(request):
     my_books = lmdl.Requestedbook.objects.filter(requested_user=request.user,request_book=True).all()
     context = {'my_books':my_books}
     return render(request,'accounts/student_site/my_requested_books.html',context)
+
+def my_overdue_books(request):
+    overs = lmdl.Borrowedbook.objects.filter(borrower=request.user).all()
+    context = {'overs':overs}
+    return render(request,'accounts/student_site/my_overdue_books.html',context)

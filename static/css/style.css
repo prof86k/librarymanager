@@ -57,12 +57,12 @@ input:focus {
 }
 
 .form-control {
-    border-color: #bbc1c9
+    border-color: #2f3235
 }
 
 .form-control:focus {
     box-shadow: 0 0 0 0 transparent!important;
-    border-color: #bbc1c9
+    border-color: #2f3235
 }
 
 .dropdown-menu {
@@ -2249,7 +2249,7 @@ p a:hover {
     width: 100%;
     display: block;
     border-radius: 10px;
-    border: 1px solid #e5ecff
+    border: 1px solid #3d3d3f
 }
 
 .common_input input::placeholder {
