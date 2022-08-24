@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
 from . import models as mdl
-from librarymanagementcore.tasks import we_are_testing_celery
+# from librarymanagementcore.tasks import we_are_testing_celery
 
 
 class AdministratorRegisterationForm(UserCreationForm):

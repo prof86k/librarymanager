@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# ROOT_URLCONF = 'librarymanagementcore.urls'
+ROOT_URLCONF = 'librarymanagementcore.urls'
 AUTH_USER_MODEL = 'accounts.User'
 
 TEMPLATES = [
@@ -83,13 +83,17 @@ WSGI_APPLICATION = 'librarymanagementcore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': config.db_config.get('DB_ENGINE'),
-        "NAME": config.db_config.get('DB_NAME'),
-        'USER': config.db_config.get('DB_USER'),
-        "PASSWORD": config.db_config.get('DB_PASSWORD'),
-        "HOST": config.db_config.get('DB_HOST'),
-        'PORT': config.db_config.get('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    # 'ENGINE': config.db_config.get('DB_ENGINE'),
+    # "NAME": config.db_config.get('DB_NAME'),
+    # 'USER': config.db_config.get('DB_USER'),
+    # "PASSWORD": config.db_config.get('DB_PASSWORD'),
+    # "HOST": config.db_config.get('DB_HOST'),
+    # 'PORT': config.db_config.get('DB_PORT'),
+    # }
 }
 
 
