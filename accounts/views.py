@@ -128,7 +128,7 @@ def user_profile(request,user_id):
             return redirect('accounts:user_profile',user_id=user_profile.id)
         else:
             messages.error(request,'Error: Resquested updates unsuccessfull.')
-            return redirect('accounts:student_profile')
+            return redirect('accounts:student_profile',user_id=user_profile.id)
 
     else:
         form = fms.UserProfileForm(instance=user_profile)

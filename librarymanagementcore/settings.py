@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     # my apps
     'library.apps.LibraryConfig',
     'accounts.apps.AccountsConfig',
-    # 
+    #
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,13 +56,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'librarymanagementcore.urls'
+# ROOT_URLCONF = 'librarymanagementcore.urls'
 AUTH_USER_MODEL = 'accounts.User'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': filter(None,os.getenv("TEMPLATES_DIRS","").split(",")),
+        'DIRS': filter(None, os.getenv("TEMPLATES_DIRS", "").split(",")),
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'librarymanagementcore.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': config.db_config.get('DB_ENGINE'),
-        "NAME":config.db_config.get('DB_NAME'),
-        'USER':config.db_config.get('DB_USER'),
-        "PASSWORD":config.db_config.get('DB_PASSWORD'),
-        "HOST":config.db_config.get('DB_HOST'),
-        'PORT':config.db_config.get('DB_PORT'),
+        "NAME": config.db_config.get('DB_NAME'),
+        'USER': config.db_config.get('DB_USER'),
+        "PASSWORD": config.db_config.get('DB_PASSWORD'),
+        "HOST": config.db_config.get('DB_HOST'),
+        'PORT': config.db_config.get('DB_PORT'),
     }
 }
 
@@ -129,19 +129,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,'static')
+    os.path.join(BASE_DIR, 'static')
 ]
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT  = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 MESSAGE_TAGS = {
-    messages.ERROR:'alert-danger',
-    messages.SUCCESS:'alert-success',
-    messages.WARNING:'alert-warning',
-    messages.INFO:'alert-info',
+    messages.ERROR: 'alert-danger',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.INFO: 'alert-info',
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -149,9 +149,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # redis settings
 
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = 'Africa/Accra'
+# BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Africa/Accra'
